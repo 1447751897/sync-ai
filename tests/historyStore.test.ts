@@ -1,4 +1,4 @@
-import { mkdtemp } from "node:fs/promises";
+import { mkdtemp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
@@ -42,6 +42,30 @@ describe("HistoryStore", () => {
     await store.clear();
 
     await expect(store.read()).resolves.toEqual([]);
+  });
+
+  test("quarantines corrupt history and returns an empty list", async () => {
+    const historyPath = await tempHistoryPath();
+    const store = new HistoryStore(historyPath);
+    await writeFile(historyPath, "[{\"id\":\"broken\"}]\ntrailing", "utf8");
+
+    await expect(store.read()).resolves.toEqual([]);
+
+    const files = await readdir(join(historyPath, ".."));
+    expect(files.some((file) => file.startsWith("history.json.corrupt-"))).toBe(true);
+  });
+
+  test("serializes concurrent appends to keep history JSON valid", async () => {
+    const historyPath = await tempHistoryPath();
+    const stores = Array.from({ length: 10 }, () => new HistoryStore(historyPath));
+
+    await Promise.all(stores.map((store, index) => store.append(createRecord(`record-${index}`))));
+
+    const records = await new HistoryStore(historyPath).read();
+    expect(records).toHaveLength(10);
+    expect(new Set(records.map((record) => record.id))).toEqual(
+      new Set(Array.from({ length: 10 }, (_, index) => `record-${index}`))
+    );
   });
 });
 
