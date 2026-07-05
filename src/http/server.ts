@@ -7,6 +7,7 @@ import { listCcswitchProviders, syncCcswitchRoutes } from "../ccswitch/index.js"
 import { ConfigStore } from "../config/configStore.js";
 import { routerConfigSchema } from "../config/schema.js";
 import { collectDiagnostics } from "../diagnostics/diagnostics.js";
+import { installCodexPlugin } from "../desktop/codexInstaller.js";
 import { HistoryStore } from "../history/historyStore.js";
 
 type ConfigHttpServerOptions = {
@@ -114,6 +115,20 @@ async function routeRequest(
   if (request.method === "GET" && url.pathname === "/api/docs/getting-started") {
     response.writeHead(200, { "content-type": "text/markdown; charset=utf-8" });
     response.end(gettingStartedGuide());
+    return;
+  }
+
+  if (request.method === "GET" && url.pathname === "/api/desktop/status") {
+    sendJson(response, 200, {
+      appName: "sync-ai",
+      canInstallPlugin: true,
+      appRoot: process.env.SYNC_AI_APP_ROOT ?? process.cwd()
+    });
+    return;
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/desktop/install-plugin") {
+    sendJson(response, 200, await installCodexPlugin());
     return;
   }
 

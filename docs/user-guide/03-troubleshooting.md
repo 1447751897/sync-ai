@@ -25,7 +25,7 @@ npm run start:config
 
 处理步骤：
 
-1. 确认插件已经安装。
+1. 打开 sync-ai 控制台，点击“安装/更新 Codex 插件”。
 2. 确认项目已构建。
 3. 新开一个 Codex 对话。
 4. 检查 `.mcp.json` 是否指向 `node ./dist/mcp/server.js`。
@@ -41,6 +41,22 @@ npm run build
 ```powershell
 python C:\Users\zhuzhenyu\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py D:\projects\codex-image-router
 ```
+
+## 安装插件时报 `spawn EPERM`
+
+Windows 上 `where codex` 有时会优先返回 `C:\Program Files\WindowsApps\...` 下的 App Execution Alias，后端进程直接启动它可能被系统拒绝。
+
+处理：
+
+1. 升级到新版 sync-ai，安装器会优先扫描 `%LOCALAPPDATA%\OpenAI\Codex\bin\*\codex.exe`。
+2. 如果仍然失败，手动指定稳定路径：
+
+```powershell
+$env:SYNC_AI_CODEX_EXE="$env:LOCALAPPDATA\OpenAI\Codex\bin\<版本>\codex.exe"
+npm run start:config
+```
+
+3. 重新打开控制台，点击“安装/更新 Codex 插件”。
 
 ## `fetch failed`
 
@@ -101,4 +117,3 @@ curl.exe --proxy http://127.0.0.1:7890 -I https://www.kamenking.top
 ```text
 %LOCALAPPDATA%\SyncAI\history.json
 ```
-

@@ -473,6 +473,7 @@
               </p>
               <div class="hero-actions">
                 <button class="btn primary" id="sync-ccswitch">同步 cc-switch</button>
+                <button class="btn" id="install-plugin">安装/更新 Codex 插件</button>
                 <button class="btn" id="run-diagnostics">运行诊断</button>
                 <button class="btn" id="copy-report">复制诊断报告</button>
               </div>
@@ -488,6 +489,18 @@
 
         <section class="panel active" id="panel-overview">
           <div class="status-grid" id="status-cards"></div>
+          <div class="card">
+            <div class="section-title">
+              <h2>客户端安装助手</h2>
+            </div>
+            <p class="muted">
+              如果你是通过 Windows 客户端打开 sync-ai，可以点击下方按钮自动创建本地 marketplace，并安装/更新 Codex 插件。
+            </p>
+            <div class="actions">
+              <button class="btn primary" id="install-plugin-secondary">一键安装/更新插件</button>
+            </div>
+            <pre id="install-result">等待操作。</pre>
+          </div>
           <div class="two-col">
             <div class="card">
               <div class="section-title">
@@ -957,6 +970,19 @@
       }
       $("#copy-report").addEventListener("click", copyReport);
       $("#copy-report-secondary").addEventListener("click", copyReport);
+
+      async function installPlugin() {
+        const output = $("#install-result");
+        output.textContent = "正在安装/更新 Codex 插件...";
+        try {
+          const result = await api("/api/desktop/install-plugin", { method: "POST" });
+          output.textContent = JSON.stringify(result, null, 2);
+        } catch (error) {
+          output.textContent = error.message;
+        }
+      }
+      $("#install-plugin").addEventListener("click", installPlugin);
+      $("#install-plugin-secondary").addEventListener("click", installPlugin);
 
       $("#clear-history").addEventListener("click", async () => {
         await api("/api/history/clear", { method: "POST" });

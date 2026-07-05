@@ -119,6 +119,25 @@ describe("config HTTP server", () => {
     expect(guide).toContain("sync-ai");
   });
 
+  test("reports desktop plugin installer availability", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "sync-ai-http-desktop-"));
+    const store = new ConfigStore(join(dir, "config.json"));
+    const server = createConfigHttpServer({ store });
+    const address = await server.listen(0);
+    closeServer = server.close;
+
+    const response = await fetch(`http://127.0.0.1:${address.port}/api/desktop/status`);
+    const status = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(status).toEqual(
+      expect.objectContaining({
+        appName: "sync-ai",
+        canInstallPlugin: true
+      })
+    );
+  });
+
   test("rejects listen when the requested port is already in use", async () => {
     const dir = await mkdtemp(join(tmpdir(), "sync-ai-http-port-"));
     const first = createConfigHttpServer({

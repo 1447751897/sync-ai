@@ -14,6 +14,7 @@ async function importHttpServer() {
 }
 
 async function startLocalServer() {
+  process.env.SYNC_AI_APP_ROOT = path.join(__dirname, "..");
   const { createConfigHttpServer } = await importHttpServer();
   const errors = [];
   for (let offset = 0; offset < MAX_PORT_ATTEMPTS; offset += 1) {

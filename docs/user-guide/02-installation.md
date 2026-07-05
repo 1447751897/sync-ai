@@ -17,6 +17,17 @@ sync-ai-0.1.0-x64.exe
 
 当前 portable 版本不需要安装，也不会自动注册开机启动。
 
+## 客户端内一键安装 Codex 插件
+
+打开客户端后，在页面中点击“安装/更新 Codex 插件”。sync-ai 会自动完成：
+
+1. 创建本地 marketplace：`%LOCALAPPDATA%\SyncAI\marketplace`
+2. 将当前 sync-ai 插件链接到 marketplace。
+3. 调用本机 Codex CLI 安装：`sync-ai@sync-ai-local`
+4. 返回安装结果和插件缓存路径。
+
+安装成功后，请新开一个 Codex 对话。已有对话通常不会热加载刚安装的 MCP 插件。
+
 ## 开发环境安装方式
 
 ## 环境要求
@@ -61,13 +72,21 @@ npm run start:config
 
 ## 安装 Codex 插件
 
-本机开发环境可通过本地 marketplace 安装。示例：
+开发环境也推荐直接打开控制台，点击“安装/更新 Codex 插件”。
+
+如果需要手动排查，可指定本机 Codex CLI 运行：
 
 ```powershell
-& "C:\Users\zhuzhenyu\AppData\Local\OpenAI\Codex\bin\38dff8711e296435\codex.exe" plugin add "sync-ai@zno-local" --json
+& "$env:LOCALAPPDATA\OpenAI\Codex\bin\<版本>\codex.exe" plugin marketplace add "$env:LOCALAPPDATA\SyncAI\marketplace" --json
+& "$env:LOCALAPPDATA\OpenAI\Codex\bin\<版本>\codex.exe" plugin add "sync-ai@sync-ai-local" --json
 ```
 
-如果用户机器没有本地 marketplace，需要先配置 marketplace 或使用未来的打包安装器。
+如果页面提示找不到 Codex CLI，可以设置：
+
+```powershell
+$env:SYNC_AI_CODEX_EXE="$env:LOCALAPPDATA\OpenAI\Codex\bin\<版本>\codex.exe"
+npm run start:config
+```
 
 ## 开发环境运行桌面客户端
 
@@ -90,10 +109,11 @@ release\sync-ai-0.1.0-x64.exe
 ## 验证安装
 
 1. 打开 sync-ai 控制台。
-2. 点击“运行诊断”。
-3. 确认配置、路由、cc-switch、代理状态。
-4. 新开一个 Codex 对话。
-5. 查看是否能调用 sync-ai MCP 工具。
+2. 点击“安装/更新 Codex 插件”。
+3. 点击“运行诊断”。
+4. 确认配置、路由、cc-switch、代理状态。
+5. 新开一个 Codex 对话。
+6. 查看是否能调用 sync-ai MCP 工具。
 
 ## 升级
 
@@ -102,7 +122,6 @@ release\sync-ai-0.1.0-x64.exe
 ```powershell
 npm run build
 python C:\Users\zhuzhenyu\.codex\skills\.system\plugin-creator\scripts\update_plugin_cachebuster.py D:\projects\codex-image-router
-& "C:\Users\zhuzhenyu\AppData\Local\OpenAI\Codex\bin\38dff8711e296435\codex.exe" plugin add "sync-ai@zno-local" --json
 ```
 
-升级后建议新开 Codex 对话，因为已有对话通常不会热加载新的 MCP 插件。
+然后打开控制台点击“安装/更新 Codex 插件”。升级后建议新开 Codex 对话，因为已有对话通常不会热加载新的 MCP 插件。

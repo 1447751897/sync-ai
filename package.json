@@ -62,6 +62,7 @@
         "portable"
       ],
       "artifactName": "sync-ai-${version}-${arch}.${ext}"
-    }
+    },
+    "asar": false
   }
 }
