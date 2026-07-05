@@ -1,8 +1,23 @@
 # sync-ai 安装指南
 
-## 当前 Beta 安装方式
+## 推荐安装方式：Windows portable 客户端
 
-Phase 1.5 仍是本地插件项目形态，适合 Beta 测试用户。正式 Windows 安装包属于 Phase 2。
+从 GitHub Release 下载：
+
+```text
+sync-ai-0.1.0-x64.exe
+```
+
+双击运行即可。客户端会：
+
+1. 启动本地 sync-ai 控制台服务。
+2. 打开桌面窗口。
+3. 默认使用 `8756` 端口。
+4. 如果 `8756` 已被占用，自动尝试 `8757`、`8758` 等后续端口。
+
+当前 portable 版本不需要安装，也不会自动注册开机启动。
+
+## 开发环境安装方式
 
 ## 环境要求
 
@@ -54,6 +69,24 @@ npm run start:config
 
 如果用户机器没有本地 marketplace，需要先配置 marketplace 或使用未来的打包安装器。
 
+## 开发环境运行桌面客户端
+
+```powershell
+npm run desktop:dev
+```
+
+## 构建 Windows portable 客户端
+
+```powershell
+npm run desktop:pack
+```
+
+输出文件：
+
+```text
+release\sync-ai-0.1.0-x64.exe
+```
+
 ## 验证安装
 
 1. 打开 sync-ai 控制台。
@@ -73,4 +106,3 @@ python C:\Users\zhuzhenyu\.codex\skills\.system\plugin-creator\scripts\update_pl
 ```
 
 升级后建议新开 Codex 对话，因为已有对话通常不会热加载新的 MCP 插件。
-

@@ -87,6 +87,44 @@ Codex 对话
 | 前端 | 原生 HTML/CSS/JS | MVP 本地配置页 |
 | 插件 | Codex plugin + MCP | 在 Codex 中暴露生图工具 |
 
+## TD-003：Phase 2 桌面客户端选择 Electron
+
+日期：2026-07-06
+
+状态：已采纳
+
+背景：
+
+sync-ai 的完整目标是让外部用户可以下载客户端并直接使用，而不是要求用户手动运行 `npm run start:config`。Phase 1.5 已经完成本地插件、控制台、诊断、历史和文档，但仍不是普通用户意义上的桌面客户端。
+
+候选方案：
+
+| 方案 | 优点 | 缺点 | 当前结论 |
+| --- | --- | --- | --- |
+| Tauri | 体积小，长期适合本地工具 | 当前机器未安装 Rust/Cargo；会增加用户构建门槛 | 暂缓到后续评估 |
+| Electron | 当前 Node 环境可直接构建；生态成熟；electron-builder 可产出 Windows portable | 体积较大 | Phase 2 采用 |
+| 纯 Node CLI 启动器 | 实现最快 | 仍不像“客户端”，用户体验不足 | 只作为内部 fallback |
+
+决策：
+
+Phase 2 使用 Electron 作为桌面客户端外壳。Electron 主进程负责启动 sync-ai 本地 HTTP 控制台服务，并在桌面窗口中加载 `http://127.0.0.1:<port>/`。本地服务和 MCP 代码继续复用现有 Node/TypeScript 架构，避免重写核心逻辑。
+
+技术要点：
+
+1. 新增 Electron main 入口。
+2. Electron 启动时动态导入 `dist/http/server.js`，在进程内启动本地控制台服务。
+3. 优先使用 `8756` 端口，端口占用时自动尝试后续端口。
+4. 使用 electron-builder 生成 Windows portable 构建。
+5. 不把真实 token 打包或写入客户端；密钥仍来自用户本机 cc-switch 或环境变量。
+
+验证要求：
+
+1. `npm test` 通过。
+2. `npm run build` 通过。
+3. `npm run desktop:dev` 能打开桌面窗口。
+4. `npm run desktop:pack` 能生成 Windows portable 包。
+5. 文档说明普通用户如何下载、启动和排查问题。
+
 ## TD-002：升级为单对话多模型能力路由
 
 日期：2026-07-05

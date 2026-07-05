@@ -118,6 +118,22 @@ describe("config HTTP server", () => {
     expect(guideResponse.status).toBe(200);
     expect(guide).toContain("sync-ai");
   });
+
+  test("rejects listen when the requested port is already in use", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "sync-ai-http-port-"));
+    const first = createConfigHttpServer({
+      store: new ConfigStore(join(dir, "first.json"))
+    });
+    const address = await first.listen(0);
+    closeServer = first.close;
+
+    const second = createConfigHttpServer({
+      store: new ConfigStore(join(dir, "second.json"))
+    });
+
+    await expect(second.listen(address.port)).rejects.toThrow();
+    await second.close().catch(() => undefined);
+  });
 });
 
 async function createFakeCcswitchRoot(): Promise<string> {

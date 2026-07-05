@@ -2,6 +2,42 @@
 
 本文档记录开发过程中新增、变更、删除和修复的功能。每完成一个功能或重要改动后都要更新。
 
+## 2026-07-06 - sync-ai Phase 2 Windows portable 客户端
+
+类型：客户端化 / 打包发布
+
+状态：已实现并完成本地验证
+
+变更说明：
+
+1. 新增 Electron 桌面客户端入口 `desktop/main.cjs`。
+2. 客户端启动时会动态导入 `dist/http/server.js`，在进程内启动 sync-ai 本地控制台。
+3. 默认使用 `8756` 端口；端口被占用时自动尝试后续端口。
+4. 新增 npm 脚本：
+   - `desktop:dev`
+   - `desktop:dir`
+   - `desktop:pack`
+5. 新增 electron-builder 配置，支持 Windows x64 portable 构建。
+6. 新增开发依赖 `electron` 和 `electron-builder`。
+7. 更新 README 和用户安装/发布文档，加入客户端运行与打包说明。
+
+验证记录：
+
+1. `npm test` 通过：9 个测试文件，36 个测试。
+2. `npm run build` 通过。
+3. `npm run desktop:dir` 成功生成 `release/win-unpacked/sync-ai.exe`。
+4. `release/win-unpacked/sync-ai.exe` 启动成功；当 8756 被占用时，自动监听 `127.0.0.1:8757`。
+5. `npm run desktop:pack` 成功生成 `release/sync-ai-0.1.0-x64.exe`。
+6. portable exe 启动成功，子进程成功监听本地控制台端口。
+
+后续增强：
+
+1. 自动安装/更新 Codex 插件。
+2. 托盘常驻。
+3. 自动更新。
+4. 代码签名。
+5. macOS/Linux 客户端。
+
 ## 2026-07-05 - sync-ai Phase 1.5 Beta 产品化
 
 类型：产品化增强 / 页面重构 / 诊断与历史

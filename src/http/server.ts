@@ -33,10 +33,20 @@ export function createConfigHttpServer(args: ConfigHttpServerOptions = {}) {
 
   return {
     listen: (port: number) =>
-      new Promise<{ port: number }>((resolveListen) => {
-        server.listen(port, "127.0.0.1", () => {
+      new Promise<{ port: number }>((resolveListen, rejectListen) => {
+        const onError = (error: Error) => {
+          server.off("listening", onListening);
+          rejectListen(error);
+        };
+        const onListening = () => {
+          server.off("error", onError);
           const address = server.address();
           resolveListen({ port: typeof address === "object" && address ? address.port : port });
+        };
+        server.once("error", onError);
+        server.once("listening", onListening);
+        server.listen(port, "127.0.0.1", () => {
+          // handled by the one-time "listening" listener above
         });
       }),
     close: () =>

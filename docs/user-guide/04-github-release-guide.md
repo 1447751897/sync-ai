@@ -69,19 +69,24 @@ sync-ai v0.1.0-beta
 
 说明：
 
-- 本版本是本地插件 + 控制台 Beta。
-- 不包含正式安装包。
+- 本版本包含本地插件、控制台和 Windows portable 客户端。
+- portable 文件名：`sync-ai-0.1.0-x64.exe`。
 - 不包含云端账号和计费。
 - 适合 Codex + cc-switch 用户试用。
 
+创建 Release：
+
+```powershell
+gh release create v0.1.0-beta release\sync-ai-0.1.0-x64.exe --title "sync-ai v0.1.0-beta" --notes "Windows portable beta. Includes Codex MCP plugin, local control panel, diagnostics, history, cc-switch sync, and Electron desktop launcher."
+```
+
 ## 后续 Phase 2
 
-Phase 2 建议做 Windows 桌面客户端：
+后续客户端增强：
 
-1. Tauri 或 Electron 外壳。
-2. 一键安装/更新插件。
-3. 托盘常驻。
-4. 自动启动本地服务。
-5. 可视化日志和诊断。
-6. GitHub Release 附带安装包。
-
+1. 一键安装/更新 Codex 插件。
+2. 托盘常驻。
+3. 自动更新。
+4. 签名证书。
+5. macOS/Linux 包。
+6. 云端账号和授权。

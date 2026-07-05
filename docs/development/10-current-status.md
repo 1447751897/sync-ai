@@ -4,6 +4,39 @@
 
 ## 2026-07-05 快照
 
+### 追加：2026-07-06 Phase 2 Windows portable 客户端
+
+当前进展：
+
+sync-ai 已从“插件 + 本地控制台 Beta”继续推进为“插件 + 本地控制台 + Windows portable 客户端”。普通用户可以从 GitHub Release 下载 `sync-ai-0.1.0-x64.exe`，双击后客户端会启动本地控制台并打开桌面窗口。
+
+本轮已完成：
+
+1. 新增 Electron 入口：`desktop/main.cjs`。
+2. 新增桌面客户端脚本：
+   - `npm run desktop:dev`
+   - `npm run desktop:dir`
+   - `npm run desktop:pack`
+3. 新增 electron-builder 配置。
+4. 生成 unpacked 客户端：`release/win-unpacked/sync-ai.exe`。
+5. 生成 Windows portable 客户端：`release/sync-ai-0.1.0-x64.exe`。
+6. 更新 README、安装指南和 GitHub 发布指南。
+7. 记录技术决策：`docs/engineering/04-tech-decisions.md` 中 TD-003。
+
+验证：
+
+1. `npm test` 通过：9 个测试文件，36 个测试。
+2. `npm run build` 通过。
+3. `npm run desktop:dir` 通过。
+4. `release/win-unpacked/sync-ai.exe` 启动成功，端口 fallback 生效。
+5. `npm run desktop:pack` 通过。
+6. `release/sync-ai-0.1.0-x64.exe` 启动成功，portable 子进程成功监听本地控制台端口。
+
+剩余建议：
+
+1. 上传 portable exe 到 GitHub Release。
+2. 后续增加托盘、自动更新、代码签名和一键安装 Codex 插件。
+
 ### 追加：sync-ai Phase 1.5 Beta 产品化进行中
 
 当前目标：

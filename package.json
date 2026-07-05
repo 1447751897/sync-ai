@@ -11,7 +11,10 @@
     "dev:config": "tsx src/http/server.ts",
     "start:config": "node dist/http/server.js",
     "mcp": "node dist/mcp/server.js",
-    "mcp:dev": "tsx src/mcp/server.ts"
+    "mcp:dev": "tsx src/mcp/server.ts",
+    "desktop:dev": "npm run build && electron .",
+    "desktop:pack": "npm run build && electron-builder --win portable --x64",
+    "desktop:dir": "npm run build && electron-builder --dir --win --x64"
   },
   "keywords": [
     "codex",
@@ -31,8 +34,34 @@
   },
   "devDependencies": {
     "@types/node": "latest",
+    "electron": "^43.0.0",
+    "electron-builder": "^26.15.3",
     "tsx": "latest",
     "typescript": "latest",
     "vitest": "latest"
+  },
+  "main": "desktop/main.cjs",
+  "build": {
+    "appId": "com.syncai.desktop",
+    "productName": "sync-ai",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "desktop/**/*",
+      "dist/**/*",
+      "package.json",
+      "node_modules/**/*",
+      ".codex-plugin/**/*",
+      ".mcp.json",
+      "README.md",
+      "docs/user-guide/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "artifactName": "sync-ai-${version}-${arch}.${ext}"
+    }
   }
 }
