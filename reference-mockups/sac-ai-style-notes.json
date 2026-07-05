@@ -1,0 +1,243 @@
+{
+  "body": {
+    "background": "rgb(244, 239, 230)",
+    "color": "rgb(26, 23, 20)",
+    "fontFamily": "Inter, \"Noto Sans SC\", system-ui, sans-serif"
+  },
+  "buttons": [
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 32,
+        "w": 36,
+        "x": 64,
+        "y": 23
+      },
+      "tag": "A",
+      "text": "Sac"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 15,
+        "w": 47,
+        "x": 703,
+        "y": 31
+      },
+      "tag": "A",
+      "text": "ABOUT"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 15,
+        "w": 59,
+        "x": 783,
+        "y": 31
+      },
+      "tag": "A",
+      "text": "WRITING"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 15,
+        "w": 42,
+        "x": 875,
+        "y": 31
+      },
+      "tag": "A",
+      "text": "VIDEO"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 15,
+        "w": 40,
+        "x": 949,
+        "y": 31
+      },
+      "tag": "A",
+      "text": "BUILD"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 15,
+        "w": 66,
+        "x": 1022,
+        "y": 31
+      },
+      "tag": "A",
+      "text": "CONTACT"
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px none rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 18,
+        "w": 18,
+        "x": 1183,
+        "y": 30
+      },
+      "tag": "A",
+      "text": ""
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "1px solid rgb(26, 23, 20)",
+      "color": "rgb(26, 23, 20)",
+      "radius": "0px",
+      "rect": {
+        "h": 58,
+        "w": 183,
+        "x": 119,
+        "y": 581
+      },
+      "tag": "A",
+      "text": "查看内容 →"
+    }
+  ],
+  "h1": {
+    "background": "rgba(0, 0, 0, 0)",
+    "color": "rgb(26, 23, 20)",
+    "fontFamily": "\"Playfair Display\", \"Noto Serif SC\", Georgia, serif",
+    "fontSize": "320px",
+    "fontWeight": "500",
+    "letterSpacing": "-6.4px",
+    "lineHeight": "256px",
+    "rect": {
+      "h": 256,
+      "w": 417,
+      "x": 104,
+      "y": 128
+    },
+    "tag": "H1",
+    "text": "Sac"
+  },
+  "h2": {
+    "background": "rgba(0, 0, 0, 0)",
+    "color": "rgb(26, 23, 20)",
+    "fontFamily": "\"Playfair Display\", \"Noto Serif SC\", Georgia, serif",
+    "fontSize": "92.16px",
+    "fontWeight": "500",
+    "letterSpacing": "normal",
+    "lineHeight": "84.7872px",
+    "rect": {
+      "h": 85,
+      "w": 480,
+      "x": 104,
+      "y": 864
+    },
+    "tag": "H2",
+    "text": "About me"
+  },
+  "header": {
+    "background": "rgba(244, 239, 230, 0.82)",
+    "color": "rgb(26, 23, 20)",
+    "fontFamily": "Inter, \"Noto Sans SC\", system-ui, sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "letterSpacing": "normal",
+    "lineHeight": "normal",
+    "rect": {
+      "h": 78,
+      "w": 1265,
+      "x": 0,
+      "y": 0
+    },
+    "tag": "HEADER",
+    "text": "Sac\n  \n    ABOUT·\n    WRITING·\n    VIDEO·\n    BUILD·\n    CONTACT\n    25.3K"
+  },
+  "links": [
+    {
+      "href": "https://sac-ai.com/#hero",
+      "text": "Sac"
+    },
+    {
+      "href": "https://sac-ai.com/#about",
+      "text": "ABOUT"
+    },
+    {
+      "href": "https://sac-ai.com/#writing",
+      "text": "WRITING"
+    },
+    {
+      "href": "https://sac-ai.com/#shoot",
+      "text": "VIDEO"
+    },
+    {
+      "href": "https://sac-ai.com/#build",
+      "text": "BUILD"
+    },
+    {
+      "href": "https://sac-ai.com/#contact",
+      "text": "CONTACT"
+    },
+    {
+      "href": "https://github.com/Sac-Y/sac-ai.com",
+      "text": ""
+    },
+    {
+      "href": "https://sac-ai.com/#writing",
+      "text": "查看内容 →"
+    },
+    {
+      "href": "https://sac-ai.com/#contact",
+      "text": "联系我 →"
+    },
+    {
+      "href": "https://x.com/Saccc_c",
+      "text": "@Saccc_c\n              25.3K\n              \n               LIVE"
+    },
+    {
+      "href": "https://t.me/Sacccgx",
+      "text": "@Sacccgx\n              905\n              \n               LIVE"
+    },
+    {
+      "href": "https://www.xiaohongshu.com/user/profile/62bac747000000001501e21a",
+      "text": "@Sac\n              205\n              \n               LIVE"
+    }
+  ],
+  "main": {
+    "background": "rgba(0, 0, 0, 0)",
+    "color": "rgb(26, 23, 20)",
+    "fontFamily": "Inter, \"Noto Sans SC\", system-ui, sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "letterSpacing": "normal",
+    "lineHeight": "normal",
+    "rect": {
+      "h": 4878,
+      "w": 1265,
+      "x": 0,
+      "y": 0
+    },
+    "tag": "MAIN",
+    "text": "Sac\n      \n         AI media × build in public\n        \n          探索 00 后的财富自由之路\n          探索 AI 的边际与商业应用\n        \n        \n          查看内容 →\n          联系我 →\n   "
+  },
+  "viewport": {
+    "h": 720,
+    "w": 1280
+  }
+}

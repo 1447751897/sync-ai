@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>sync-ai 控制台</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070a0f;
+        --panel: #101720;
+        --panel-2: #151f2b;
+        --panel-3: #1c2937;
+        --ink: #f4f7fa;
+        --muted: #8b96a8;
+        --line: rgba(255, 255, 255, 0.1);
+        --accent: #72f2c9;
+        --accent-2: #8b7cff;
+        --warning: #ffb86b;
+        --danger: #ff6b6b;
+        --success: #66e3a3;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 20% -10%, rgba(114, 242, 201, 0.16), transparent 34rem),
+          radial-gradient(circle at 88% 12%, rgba(139, 124, 255, 0.18), transparent 32rem),
+          linear-gradient(180deg, #080b11 0%, #06080c 100%);
+        color: var(--ink);
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 24px;
+        border-right: 1px solid var(--line);
+        background: rgba(7, 10, 15, 0.78);
+        backdrop-filter: blur(20px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 30px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background:
+          linear-gradient(135deg, rgba(114, 242, 201, 0.95), rgba(139, 124, 255, 0.88)),
+          #101720;
+        box-shadow: 0 0 34px rgba(114, 242, 201, 0.3);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.03em;
+      }
+
+      .brand span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav button {
+        width: 100%;
+        border: 1px solid transparent;
+        color: var(--muted);
+        background: transparent;
+        border-radius: 12px;
+        padding: 11px 12px;
+        text-align: left;
+      }
+
+      .nav button.active {
+        color: var(--ink);
+        border-color: var(--line);
+        background: linear-gradient(135deg, rgba(114, 242, 201, 0.12), rgba(139, 124, 255, 0.08));
+      }
+
+      .sidebar-note {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .content {
+        padding: 28px;
+        display: grid;
+        gap: 22px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background:
+          linear-gradient(135deg, rgba(16, 23, 32, 0.94), rgba(21, 31, 43, 0.86)),
+          rgba(16, 23, 32, 0.9);
+        box-shadow: var(--shadow);
+        padding: 28px;
+      }
+
+      .route-rail {
+        position: absolute;
+        inset: auto 28px 24px 28px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+        opacity: 0.72;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        border: 1px solid rgba(114, 242, 201, 0.24);
+        background: rgba(114, 242, 201, 0.08);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+
+      h2 {
+        margin: 14px 0 10px;
+        font-size: clamp(34px, 5vw, 68px);
+        line-height: 0.95;
+        letter-spacing: -0.07em;
+      }
+
+      .hero p,
+      .muted {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .hero-actions,
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--ink);
+      }
+
+      .btn.primary {
+        color: #06110d;
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--accent), #9fffe2);
+        font-weight: 700;
+      }
+
+      .btn.danger {
+        border-color: rgba(255, 107, 107, 0.3);
+        color: var(--danger);
+      }
+
+      .status-grid,
+      .cards,
+      .capability-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(16, 23, 32, 0.78);
+        padding: 18px;
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .metric {
+        font-size: 24px;
+        letter-spacing: -0.04em;
+        font-weight: 800;
+      }
+
+      .panel {
+        display: none;
+      }
+
+      .panel.active {
+        display: grid;
+        gap: 18px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .section-title h2 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: -0.04em;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .route-button,
+      .provider-item,
+      .history-item,
+      .check-item {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.035);
+        border-radius: 16px;
+        padding: 14px;
+      }
+
+      .route-button {
+        text-align: left;
+        color: var(--ink);
+      }
+
+      .route-button.active {
+        border-color: rgba(114, 242, 201, 0.55);
+        background: rgba(114, 242, 201, 0.08);
+      }
+
+      .item-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-weight: 700;
+      }
+
+      .item-meta,
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 3px 8px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .chip.ok {
+        color: var(--success);
+        border-color: rgba(102, 227, 163, 0.28);
+      }
+
+      .chip.warn {
+        color: var(--warning);
+        border-color: rgba(255, 184, 107, 0.28);
+      }
+
+      .chip.error {
+        color: var(--danger);
+        border-color: rgba(255, 107, 107, 0.28);
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 11px 12px;
+        background: rgba(255, 255, 255, 0.045);
+        color: var(--ink);
+      }
+
+      select option {
+        background: #101720;
+      }
+
+      .full {
+        grid-column: 1 / -1;
+      }
+
+      .check-grid {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .check-grid label,
+      .switch-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--ink);
+      }
+
+      pre,
+      .guide {
+        white-space: pre-wrap;
+        line-height: 1.65;
+        color: #cbd5e1;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 12px;
+      }
+
+      .empty {
+        color: var(--muted);
+        border: 1px dashed var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      @media (max-width: 1180px) {
+        .shell,
+        .hero-grid,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+        .sidebar-note {
+          position: static;
+          margin-top: 20px;
+        }
+        .status-grid,
+        .cards,
+        .capability-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .content,
+        .sidebar,
+        .hero {
+          padding: 18px;
+        }
+        .status-grid,
+        .cards,
+        .capability-grid,
+        form,
+        .check-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div>
+            <h1>sync-ai</h1>
+            <span>Codex 多模型能力中枢</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="active" data-tab="overview">总览</button>
+          <button data-tab="routes">能力路由</button>
+          <button data-tab="ccswitch">cc-switch</button>
+          <button data-tab="history">调用历史</button>
+          <button data-tab="diagnostics">诊断</button>
+          <button data-tab="guide">使用指南</button>
+        </nav>
+        <div class="sidebar-note">
+          本地优先，不展示真实密钥。cc-switch token 只在调用时读取，诊断报告和历史记录会脱敏。
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">Codex → sync-ai → Provider</span>
+              <h2>一个对话，同步调度所有 AI 能力。</h2>
+              <p>
+                主模型保持不变。需要图片、视觉、代码或其他模型时，sync-ai 通过本地 MCP 工具临时路由到对应 provider，并把结果带回当前 Codex 对话。
+              </p>
+              <div class="hero-actions">
+                <button class="btn primary" id="sync-ccswitch">同步 cc-switch</button>
+                <button class="btn" id="run-diagnostics">运行诊断</button>
+                <button class="btn" id="copy-report">复制诊断报告</button>
+              </div>
+            </div>
+            <div class="card">
+              <h3>当前运行状态</h3>
+              <div class="metric" id="hero-status">加载中</div>
+              <p class="muted" id="hero-message">正在读取本地配置和诊断信息。</p>
+            </div>
+          </div>
+          <div class="route-rail"></div>
+        </section>
+
+        <section class="panel active" id="panel-overview">
+          <div class="status-grid" id="status-cards"></div>
+          <div class="two-col">
+            <div class="card">
+              <div class="section-title">
+                <h2>首次使用引导</h2>
+              </div>
+              <div class="list" id="onboarding-list"></div>
+            </div>
+            <div class="card">
+              <div class="section-title">
+                <h2>能力地图</h2>
+              </div>
+              <div class="capability-grid" id="capability-map"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-routes">
+          <div class="section-title">
+            <h2>能力路由</h2>
+            <div class="actions">
+              <button class="btn" id="add-route">新增路由</button>
+              <button class="btn" id="set-text-default">设为文本默认</button>
+              <button class="btn" id="set-image-default">设为图片默认</button>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="list" id="routes-list"></div>
+            </div>
+            <div class="card">
+              <form id="route-form">
+                <label>
+                  名称
+                  <input name="name" autocomplete="off" />
+                </label>
+                <label>
+                  Provider 类型
+                  <select name="provider">
+                    <option value="mock">本地模拟</option>
+                    <option value="openai-compatible">OpenAI 兼容</option>
+                  </select>
+                </label>
+                <label class="full">
+                  基础地址
+                  <input name="baseUrl" placeholder="https://www.kamenking.top/v1" autocomplete="off" />
+                </label>
+                <label>
+                  模型名
+                  <input name="model" autocomplete="off" />
+                </label>
+                <label>
+                  密钥来源
+                  <select name="secretSource">
+                    <option value="env">环境变量</option>
+                    <option value="cc-switch">cc-switch</option>
+                  </select>
+                </label>
+                <label>
+                  环境变量名
+                  <input name="secretEnvVar" placeholder="KMKAPI_API_KEY" autocomplete="off" />
+                </label>
+                <label>
+                  cc-switch Provider ID
+                  <input name="ccswitchProviderId" autocomplete="off" />
+                </label>
+                <label>
+                  输出目录
+                  <input name="outputDir" autocomplete="off" />
+                </label>
+                <div class="check-grid">
+                  <label><input name="capabilities" type="checkbox" value="text" />文本</label>
+                  <label><input name="capabilities" type="checkbox" value="image" />图片</label>
+                  <label><input name="capabilities" type="checkbox" value="vision" />视觉</label>
+                  <label><input name="capabilities" type="checkbox" value="code" />代码</label>
+                  <label><input name="capabilities" type="checkbox" value="other" />其他</label>
+                </div>
+                <label class="switch-row full">
+                  <input name="allowConversationContext" type="checkbox" />
+                  允许此路由携带对话上下文
+                </label>
+                <div class="actions full">
+                  <button class="btn primary" type="submit">保存路由</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-ccswitch">
+          <div class="section-title">
+            <h2>cc-switch Provider</h2>
+            <div class="actions">
+              <button class="btn primary" id="sync-ccswitch-secondary">同步到路由</button>
+              <button class="btn" id="refresh-ccswitch">刷新列表</button>
+            </div>
+          </div>
+          <div class="cards" id="ccswitch-providers"></div>
+        </section>
+
+        <section class="panel" id="panel-history">
+          <div class="section-title">
+            <h2>调用历史</h2>
+            <button class="btn danger" id="clear-history">清空历史</button>
+          </div>
+          <div class="list" id="history-list"></div>
+        </section>
+
+        <section class="panel" id="panel-diagnostics">
+          <div class="section-title">
+            <h2>诊断报告</h2>
+            <div class="actions">
+              <button class="btn primary" id="run-diagnostics-secondary">重新运行</button>
+              <button class="btn" id="copy-report-secondary">复制报告</button>
+            </div>
+          </div>
+          <div class="cards" id="diagnostic-checks"></div>
+          <div class="card">
+            <h3>原始报告</h3>
+            <pre id="raw-report">加载中...</pre>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-guide">
+          <div class="section-title">
+            <h2>使用指南</h2>
+          </div>
+          <div class="card guide" id="guide-content">加载中...</div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const state = {
+        config: null,
+        diagnostics: null,
+        history: [],
+        ccswitchProviders: [],
+        selectedId: "",
+        guide: ""
+      };
+
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+      async function api(path, options) {
+        const response = await fetch(path, options);
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`${path} 请求失败：${response.status} ${text}`);
+        }
+        const contentType = response.headers.get("content-type") || "";
+        return contentType.includes("application/json") ? response.json() : response.text();
+      }
+
+      async function refreshAll() {
+        const [config, diagnostics, history, providers, guide] = await Promise.all([
+          api("/api/config"),
+          api("/api/diagnostics"),
+          api("/api/history"),
+          api("/api/ccswitch/providers").catch(() => []),
+          api("/api/docs/getting-started").catch(() => "sync-ai 使用指南暂不可用。")
+        ]);
+        state.config = config;
+        state.diagnostics = diagnostics;
+        state.history = history;
+        state.ccswitchProviders = providers;
+        state.guide = guide;
+        state.selectedId = state.selectedId || config.activeRouteId;
+        render();
+      }
+
+      function render() {
+        renderHero();
+        renderStatusCards();
+        renderOnboarding();
+        renderCapabilityMap();
+        renderRoutes();
+        renderCcswitchProviders();
+        renderHistory();
+        renderDiagnostics();
+        $("#guide-content").textContent = state.guide;
+      }
+
+      function renderHero() {
+        const errors = state.diagnostics?.summary?.error || 0;
+        const warnings = state.diagnostics?.summary?.warning || 0;
+        $("#hero-status").textContent = errors ? "需要处理" : warnings ? "可用，有提醒" : "运行正常";
+        $("#hero-message").textContent = `路由 ${state.config?.routes?.length || 0} 个 · 历史 ${state.history.length} 条 · 诊断 ${errors} 错误 / ${warnings} 提醒`;
+      }
+
+      function renderStatusCards() {
+        const defaultText = state.config?.defaultRoutes?.text || "未设置";
+        const defaultImage = state.config?.defaultRoutes?.image || "未设置";
+        const proxyCheck = state.diagnostics?.checks?.find((check) => check.id === "proxy");
+        const ccCheck = state.diagnostics?.checks?.find((check) => check.id === "ccswitch");
+        const cards = [
+          ["默认文本", defaultText, "Codex 文本任务默认 route"],
+          ["默认图片", defaultImage, "生图任务默认 route"],
+          ["cc-switch", ccCheck?.status || "unknown", ccCheck?.message || "未检测"],
+          ["系统代理", proxyCheck?.status || "unknown", proxyCheck?.message || "未检测"]
+        ];
+        $("#status-cards").innerHTML = cards
+          .map(
+            ([title, metric, desc]) => `
+              <div class="card">
+                <h3>${escapeHtml(title)}</h3>
+                <div class="metric">${escapeHtml(metric)}</div>
+                <p class="muted">${escapeHtml(desc)}</p>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderOnboarding() {
+        const checks = [
+          ["打开本地控制台", true, "你已经在 sync-ai 控制台。"],
+          ["读取配置", hasCheck("config", "ok"), findCheck("config")?.message || "等待诊断"],
+          ["同步 cc-switch", hasCheck("ccswitch", "ok"), findCheck("ccswitch")?.message || "可手动添加 provider"],
+          ["设置默认文本", Boolean(state.config?.defaultRoutes?.text), state.config?.defaultRoutes?.text || "未设置"],
+          ["设置默认图片", Boolean(state.config?.defaultRoutes?.image), state.config?.defaultRoutes?.image || "未设置"],
+          ["确认代理", hasCheck("proxy", "ok"), findCheck("proxy")?.message || "未检测到代理"]
+        ];
+        $("#onboarding-list").innerHTML = checks
+          .map(
+            ([label, ok, message]) => `
+              <div class="check-item">
+                <div class="item-title">
+                  <span>${escapeHtml(label)}</span>
+                  <span class="chip ${ok ? "ok" : "warn"}">${ok ? "完成" : "待处理"}</span>
+                </div>
+                <div class="item-meta">${escapeHtml(message)}</div>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderCapabilityMap() {
+        const capabilities = ["text", "image", "vision", "code", "other"];
+        $("#capability-map").innerHTML = capabilities
+          .map((capability) => {
+            const routeId = state.config?.defaultRoutes?.[capability];
+            const route = state.config?.routes?.find((item) => item.id === routeId);
+            return `
+              <div class="card">
+                <h3>${capability.toUpperCase()}</h3>
+                <div class="metric">${escapeHtml(route?.name || "未配置")}</div>
+                <p class="muted">${escapeHtml(route?.model || routeId || "需要设置默认 route")}</p>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function renderRoutes() {
+        const routes = state.config?.routes || [];
+        $("#routes-list").innerHTML = routes
+          .map(
+            (route) => `
+              <button class="route-button ${route.id === state.selectedId ? "active" : ""}" data-route-id="${escapeHtml(route.id)}">
+                <div class="item-title">
+                  <span>${escapeHtml(route.name)}</span>
+                  <span class="chip">${escapeHtml(route.provider)}</span>
+                </div>
+                <div class="item-meta">${escapeHtml(route.model)} · ${escapeHtml(route.baseUrl || "local")}</div>
+                <div class="chips">${route.capabilities.map((cap) => `<span class="chip">${escapeHtml(cap)}</span>`).join("")}</div>
+              </button>
+            `
+          )
+          .join("");
+        $$(".route-button").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.selectedId = button.dataset.routeId;
+            state.config.activeRouteId = state.selectedId;
+            renderRoutes();
+          });
+        });
+        renderRouteForm();
+      }
+
+      function renderRouteForm() {
+        const route = currentRoute();
+        if (!route) return;
+        const form = $("#route-form");
+        form.name.value = route.name;
+        form.provider.value = route.provider;
+        form.baseUrl.value = route.baseUrl;
+        form.model.value = route.model;
+        form.secretSource.value = route.secretSource;
+        form.secretEnvVar.value = route.secretEnvVar;
+        form.ccswitchProviderId.value = route.ccswitchProviderId;
+        form.outputDir.value = route.outputDir;
+        form.allowConversationContext.checked = route.allowConversationContext;
+        form.querySelectorAll('input[name="capabilities"]').forEach((input) => {
+          input.checked = route.capabilities.includes(input.value);
+        });
+      }
+
+      function renderCcswitchProviders() {
+        const providers = state.ccswitchProviders || [];
+        if (!providers.length) {
+          $("#ccswitch-providers").innerHTML = '<div class="empty">未读取到 cc-switch provider。可以先安装/配置 cc-switch，或在“能力路由”里手动添加 OpenAI 兼容 provider。</div>';
+          return;
+        }
+        $("#ccswitch-providers").innerHTML = providers
+          .map(
+            (provider) => `
+              <div class="provider-item">
+                <div class="item-title">
+                  <span>${escapeHtml(provider.name)}</span>
+                  <span class="chip ${provider.hasSecret ? "ok" : "warn"}">${provider.hasSecret ? "已配置密钥" : "缺少密钥"}</span>
+                </div>
+                <div class="item-meta">${escapeHtml(provider.model || "未识别模型")} · ${escapeHtml(provider.baseUrl || "未识别地址")}</div>
+                <div class="chips">
+                  ${(provider.capabilities || []).map((cap) => `<span class="chip">${escapeHtml(cap)}</span>`).join("")}
+                  ${provider.isCurrentCodex ? '<span class="chip ok">当前 Codex</span>' : ""}
+                </div>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderHistory() {
+        const history = state.history || [];
+        if (!history.length) {
+          $("#history-list").innerHTML = '<div class="empty">还没有调用历史。通过 Codex 调用 call_model 或 generate_image 后，这里会显示最近 100 条记录。</div>';
+          return;
+        }
+        $("#history-list").innerHTML = history
+          .map(
+            (item) => `
+              <div class="history-item">
+                <div class="item-title">
+                  <span>${escapeHtml(item.type)} · ${escapeHtml(item.model)}</span>
+                  <span class="chip ${item.status === "success" ? "ok" : "error"}">${escapeHtml(item.status)}</span>
+                </div>
+                <div class="item-meta">${escapeHtml(item.routeId)} · ${escapeHtml(item.createdAt)}</div>
+                <p class="muted">${escapeHtml(item.summary)}</p>
+                ${item.imagePath ? `<div class="item-meta">图片：${escapeHtml(item.imagePath)}</div>` : ""}
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      function renderDiagnostics() {
+        const checks = state.diagnostics?.checks || [];
+        $("#diagnostic-checks").innerHTML = checks
+          .map(
+            (check) => `
+              <div class="check-item">
+                <div class="item-title">
+                  <span>${escapeHtml(check.label)}</span>
+                  <span class="chip ${statusClass(check.status)}">${escapeHtml(check.status)}</span>
+                </div>
+                <div class="item-meta">${escapeHtml(check.message)}</div>
+              </div>
+            `
+          )
+          .join("");
+        $("#raw-report").textContent = JSON.stringify(state.diagnostics, null, 2);
+      }
+
+      function currentRoute() {
+        return state.config?.routes?.find((route) => route.id === state.selectedId) || state.config?.routes?.[0];
+      }
+
+      async function saveConfig() {
+        state.config = await api("/api/config", {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(state.config)
+        });
+        state.selectedId = state.config.activeRouteId;
+        state.diagnostics = await api("/api/diagnostics");
+        render();
+      }
+
+      async function syncCcswitch() {
+        state.config = await api("/api/config/sync-ccswitch", { method: "POST" });
+        state.selectedId = state.config.activeRouteId;
+        await refreshAll();
+      }
+
+      function findCheck(id) {
+        return state.diagnostics?.checks?.find((check) => check.id === id);
+      }
+
+      function hasCheck(id, status) {
+        return findCheck(id)?.status === status;
+      }
+
+      function statusClass(status) {
+        return status === "ok" ? "ok" : status === "error" ? "error" : "warn";
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      $$(".nav button").forEach((button) => {
+        button.addEventListener("click", () => {
+          $$(".nav button").forEach((item) => item.classList.remove("active"));
+          $$(".panel").forEach((panel) => panel.classList.remove("active"));
+          button.classList.add("active");
+          $(`#panel-${button.dataset.tab}`).classList.add("active");
+        });
+      });
+
+      $("#route-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const route = currentRoute();
+        const formData = new FormData(event.currentTarget);
+        route.name = String(formData.get("name"));
+        route.provider = String(formData.get("provider"));
+        route.baseUrl = String(formData.get("baseUrl"));
+        route.model = String(formData.get("model"));
+        route.secretSource = String(formData.get("secretSource"));
+        route.secretEnvVar = String(formData.get("secretEnvVar"));
+        route.ccswitchProviderId = String(formData.get("ccswitchProviderId"));
+        route.outputDir = String(formData.get("outputDir"));
+        route.capabilities = formData.getAll("capabilities").map(String);
+        if (!route.capabilities.length) route.capabilities = ["text"];
+        route.allowConversationContext = formData.get("allowConversationContext") === "on";
+        state.config.activeRouteId = route.id;
+        await saveConfig();
+      });
+
+      $("#add-route").addEventListener("click", async () => {
+        const base = currentRoute();
+        const id = `route-${Date.now()}`;
+        state.config.routes.push({
+          ...base,
+          id,
+          name: "新能力路由",
+          capabilities: ["text"]
+        });
+        state.config.activeRouteId = id;
+        state.selectedId = id;
+        render();
+      });
+
+      $("#set-text-default").addEventListener("click", async () => {
+        state.config.defaultRoutes.text = currentRoute().id;
+        await saveConfig();
+      });
+
+      $("#set-image-default").addEventListener("click", async () => {
+        state.config.defaultRoutes.image = currentRoute().id;
+        await saveConfig();
+      });
+
+      $("#sync-ccswitch").addEventListener("click", syncCcswitch);
+      $("#sync-ccswitch-secondary").addEventListener("click", syncCcswitch);
+      $("#refresh-ccswitch").addEventListener("click", refreshAll);
+      $("#run-diagnostics").addEventListener("click", refreshAll);
+      $("#run-diagnostics-secondary").addEventListener("click", refreshAll);
+
+      async function copyReport() {
+        await navigator.clipboard.writeText(JSON.stringify(state.diagnostics, null, 2));
+      }
+      $("#copy-report").addEventListener("click", copyReport);
+      $("#copy-report-secondary").addEventListener("click", copyReport);
+
+      $("#clear-history").addEventListener("click", async () => {
+        await api("/api/history/clear", { method: "POST" });
+        state.history = [];
+        renderHistory();
+      });
+
+      refreshAll().catch((error) => {
+        $("#hero-status").textContent = "加载失败";
+        $("#hero-message").textContent = error.message;
+      });
+    </script>
+  </body>
+</html>

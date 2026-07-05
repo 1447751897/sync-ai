@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zhenyu Personal IP Reference Sections</title>
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --paper-soft: #faf6ee;
+      --ink: #1a1714;
+      --muted: #6e665c;
+      --hair: #d7cec0;
+      --orange: #e66b3f;
+      --sage: #667d68;
+      --deep: #171713;
+      --smoke: #c8bfb3;
+      --cream: #fffaf1;
+      --shadow: 0 24px 60px rgba(26, 23, 20, .12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #1a1714;
+      color: var(--ink);
+      font-family: Inter, "Noto Sans SC", "Microsoft YaHei UI", system-ui, sans-serif;
+    }
+
+    .frame {
+      position: relative;
+      width: 1440px;
+      height: 900px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(215, 206, 192, .44) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(215, 206, 192, .44) 1px, transparent 1px),
+        radial-gradient(circle at 18% 22%, rgba(230, 107, 63, .08), transparent 24%),
+        var(--paper);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+      isolation: isolate;
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(26, 23, 20, .12) 1px, transparent 0);
+      background-size: 7px 7px;
+      z-index: 0;
+    }
+
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 78px;
+      border-bottom: 1px solid var(--hair);
+      background: rgba(244, 239, 230, .74);
+      backdrop-filter: blur(14px);
+      z-index: 10;
+    }
+
+    .logo {
+      position: absolute;
+      top: 24px;
+      left: 70px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .navlinks {
+      position: absolute;
+      top: 31px;
+      right: 84px;
+      display: flex;
+      gap: 27px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .06em;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .section-tag {
+      position: absolute;
+      left: 70px;
+      bottom: 46px;
+      z-index: 5;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .section-tag::before {
+      content: "";
+      display: block;
+      width: 78px;
+      height: 1px;
+      background: var(--hair);
+    }
+
+    .serif {
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--orange);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .btn {
+      min-width: 180px;
+      height: 58px;
+      border: 1px solid var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 28px;
+      color: var(--ink);
+      background: transparent;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .btn.dark {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .hairline {
+      position: absolute;
+      background: var(--hair);
+      z-index: 1;
+    }
+
+    .vline {
+      width: 1px;
+      height: 720px;
+      top: 102px;
+    }
+
+    .hline {
+      height: 1px;
+      left: 70px;
+      right: 70px;
+    }
+
+    .corner {
+      position: absolute;
+      width: 66px;
+      height: 66px;
+      border-color: rgba(26, 23, 20, .22);
+      z-index: 3;
+    }
+
+    .corner.tl {
+      top: 116px;
+      left: 52px;
+      border-top: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .corner.tr {
+      top: 116px;
+      right: 52px;
+      border-top: 1px solid;
+      border-right: 1px solid;
+    }
+
+    .corner.bl {
+      bottom: 78px;
+      left: 52px;
+      border-bottom: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .corner.br {
+      bottom: 78px;
+      right: 52px;
+      border-bottom: 1px solid;
+      border-right: 1px solid;
+    }
+
+    .hero-title {
+      position: absolute;
+      top: 138px;
+      left: 102px;
+      z-index: 4;
+      font-size: 186px;
+      line-height: .82;
+      color: var(--ink);
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: 122px;
+      top: 392px;
+      z-index: 4;
+      width: 620px;
+    }
+
+    .hero-copy h2 {
+      margin: 30px 0 28px;
+      font-size: 31px;
+      line-height: 1.42;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .portrait-field {
+      position: absolute;
+      right: 44px;
+      top: 78px;
+      width: 720px;
+      height: 760px;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .portrait-field::before {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: 34px;
+      width: 678px;
+      height: 520px;
+      background:
+        radial-gradient(circle at 38% 42%, rgba(230, 107, 63, .96) 0 3px, transparent 4px),
+        radial-gradient(circle at 48% 49%, rgba(26, 23, 20, .88) 0 2px, transparent 3px),
+        radial-gradient(circle at 54% 32%, rgba(102, 125, 104, .86) 0 2px, transparent 3px);
+      background-size: 19px 19px, 17px 17px, 23px 23px;
+      clip-path: polygon(5% 40%, 24% 19%, 54% 8%, 84% 17%, 98% 42%, 92% 75%, 61% 92%, 25% 83%);
+      filter: contrast(1.08);
+      opacity: .95;
+    }
+
+    .portrait-field::after {
+      content: "";
+      position: absolute;
+      right: 120px;
+      top: 140px;
+      width: 360px;
+      height: 370px;
+      border: 1px solid rgba(26, 23, 20, .2);
+      transform: rotate(-6deg);
+      background: linear-gradient(135deg, rgba(250, 246, 238, .62), rgba(244, 239, 230, .12));
+      box-shadow: var(--shadow);
+      clip-path: polygon(14% 0, 92% 10%, 100% 83%, 19% 100%, 0 42%);
+    }
+
+    .floating-note {
+      position: absolute;
+      z-index: 4;
+      border: 1px solid var(--ink);
+      background: rgba(250, 246, 238, .86);
+      box-shadow: 18px 18px 0 rgba(26, 23, 20, .08);
+      padding: 28px 30px;
+    }
+
+    .floating-note strong {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .floating-note span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .note-one {
+      top: 192px;
+      right: 216px;
+      width: 310px;
+    }
+
+    .note-two {
+      top: 505px;
+      right: 82px;
+      width: 340px;
+    }
+
+    .large-label {
+      position: absolute;
+      color: rgba(26, 23, 20, .08);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 300px;
+      line-height: .8;
+      letter-spacing: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .section-head {
+      position: absolute;
+      z-index: 4;
+      max-width: 760px;
+    }
+
+    .section-head h2 {
+      margin: 16px 0 0;
+      font-size: 86px;
+      line-height: .92;
+      font-weight: 400;
+    }
+
+    .section-head p {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.55;
+    }
+
+    .article-wall {
+      position: absolute;
+      left: 610px;
+      top: 138px;
+      width: 700px;
+      height: 580px;
+      z-index: 4;
+    }
+
+    .article-card {
+      position: absolute;
+      border: 1px solid var(--ink);
+      background: rgba(250, 246, 238, .92);
+      box-shadow: 22px 24px 0 rgba(26, 23, 20, .07);
+      padding: 28px;
+    }
+
+    .article-card h3,
+    .desk-card h3,
+    .profile-card h3 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .article-card p,
+    .desk-card p,
+    .profile-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .article-card .meta {
+      position: absolute;
+      left: 28px;
+      bottom: 24px;
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .06em;
+    }
+
+    .a1 {
+      left: 26px;
+      top: 28px;
+      width: 338px;
+      height: 246px;
+      transform: rotate(-2deg);
+    }
+
+    .a2 {
+      right: 18px;
+      top: 86px;
+      width: 280px;
+      height: 330px;
+      background: var(--deep);
+      color: var(--paper);
+      transform: rotate(3deg);
+    }
+
+    .a2 p {
+      color: #cfc7ba;
+    }
+
+    .a3 {
+      left: 100px;
+      bottom: 28px;
+      width: 430px;
+      height: 214px;
+      transform: rotate(1deg);
+    }
+
+    .masonry {
+      position: absolute;
+      top: 182px;
+      left: 92px;
+      width: 510px;
+      height: 540px;
+      z-index: 4;
+    }
+
+    .tile {
+      position: absolute;
+      border: 1px solid var(--ink);
+      background: var(--paper-soft);
+      overflow: hidden;
+      box-shadow: 16px 18px 0 rgba(26, 23, 20, .07);
+    }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(230, 107, 63, .5), transparent 55%),
+        radial-gradient(circle at 62% 38%, rgba(26, 23, 20, .72) 0 4px, transparent 5px);
+      background-size: auto, 18px 18px;
+      opacity: .76;
+    }
+
+    .t1 { left: 0; top: 0; width: 190px; height: 190px; }
+    .t2 { left: 224px; top: 48px; width: 250px; height: 250px; }
+    .t3 { left: 52px; top: 252px; width: 230px; height: 230px; background: var(--deep); }
+    .t4 { left: 316px; top: 342px; width: 150px; height: 150px; }
+
+    .dark-frame {
+      background:
+        linear-gradient(rgba(230, 107, 63, .04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(230, 107, 63, .04) 1px, transparent 1px),
+        radial-gradient(circle at 75% 42%, rgba(230, 107, 63, .18), transparent 28%),
+        #11110f;
+      background-size: 24px 24px, 24px 24px, auto, auto;
+      color: var(--paper);
+    }
+
+    .dark-frame .nav {
+      background: rgba(17, 17, 15, .76);
+      border-bottom-color: rgba(244, 239, 230, .18);
+    }
+
+    .dark-frame .logo,
+    .dark-frame .navlinks,
+    .dark-frame .section-head h2,
+    .dark-frame .hero-title {
+      color: var(--paper);
+    }
+
+    .dark-frame .section-head p,
+    .dark-frame .section-tag {
+      color: #aaa293;
+    }
+
+    .private-desk {
+      position: absolute;
+      left: 640px;
+      top: 138px;
+      width: 640px;
+      height: 612px;
+      z-index: 4;
+      border: 1px solid rgba(244, 239, 230, .2);
+      background: rgba(244, 239, 230, .05);
+      box-shadow: 0 40px 90px rgba(0, 0, 0, .36);
+      overflow: hidden;
+    }
+
+    .desk-top {
+      height: 64px;
+      border-bottom: 1px solid rgba(244, 239, 230, .16);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px;
+      color: #cfc7ba;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .lamp {
+      position: absolute;
+      right: 72px;
+      top: -120px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230, 107, 63, .42), rgba(230, 107, 63, 0) 68%);
+      z-index: 2;
+    }
+
+    .desk-card {
+      position: absolute;
+      border: 1px solid rgba(244, 239, 230, .22);
+      background: rgba(244, 239, 230, .08);
+      padding: 24px;
+      color: var(--paper);
+    }
+
+    .d1 { left: 32px; top: 102px; width: 340px; height: 190px; }
+    .d2 { right: 34px; top: 160px; width: 190px; height: 270px; }
+    .d3 { left: 84px; bottom: 54px; width: 404px; height: 158px; }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 30px;
+      padding: 0 13px;
+      border: 1px solid rgba(214, 255, 98, .35);
+      color: #d6ff62;
+      font-size: 13px;
+      margin-top: 18px;
+    }
+
+    .vertical-note {
+      position: absolute;
+      left: 70px;
+      top: 136px;
+      height: 570px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      color: rgba(244, 239, 230, .34);
+      font-size: 14px;
+      letter-spacing: .2em;
+      z-index: 3;
+      text-transform: uppercase;
+    }
+
+    .profile-rig {
+      position: absolute;
+      left: 84px;
+      top: 142px;
+      width: 720px;
+      height: 620px;
+      z-index: 4;
+    }
+
+    .profile-card {
+      position: absolute;
+      border: 1px solid var(--ink);
+      background: var(--paper-soft);
+      padding: 28px;
+      box-shadow: 18px 20px 0 rgba(26, 23, 20, .06);
+    }
+
+    .p1 { left: 0; top: 0; width: 340px; height: 210px; }
+    .p2 { left: 380px; top: 62px; width: 250px; height: 250px; background: var(--deep); color: var(--paper); }
+    .p3 { left: 72px; top: 306px; width: 440px; height: 220px; }
+    .p4 { left: 550px; top: 352px; width: 150px; height: 150px; border-radius: 50%; background: var(--orange); color: var(--paper); display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 800; }
+
+    .profile-side {
+      position: absolute;
+      right: 90px;
+      top: 194px;
+      width: 430px;
+      z-index: 4;
+    }
+
+    .profile-side h2 {
+      margin: 0;
+      font-size: 88px;
+      line-height: .92;
+      font-weight: 400;
+    }
+
+    .profile-side p {
+      margin: 28px 0 36px;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.55;
+    }
+
+    .flow-stage {
+      position: absolute;
+      inset: 120px 70px 96px;
+      z-index: 4;
+    }
+
+    .flow-title {
+      position: absolute;
+      left: 24px;
+      top: 10px;
+      width: 460px;
+    }
+
+    .flow-title h2 {
+      margin: 0;
+      font-size: 82px;
+      line-height: .9;
+      font-weight: 400;
+    }
+
+    .flow-title p {
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .flow-lane {
+      position: absolute;
+      left: 520px;
+      right: 0;
+      top: 100px;
+      height: 390px;
+    }
+
+    .flow-card {
+      position: absolute;
+      width: 245px;
+      height: 245px;
+      border: 1px solid var(--ink);
+      background: var(--paper-soft);
+      padding: 24px;
+      box-shadow: 18px 18px 0 rgba(26, 23, 20, .07);
+    }
+
+    .flow-card h3 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .flow-card p {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 16px;
+    }
+
+    .f1 { left: 0; top: 88px; transform: rotate(-3deg); }
+    .f2 { left: 292px; top: 0; transform: rotate(2deg); background: var(--deep); color: var(--paper); }
+    .f2 p { color: #cfc7ba; }
+    .f3 { left: 584px; top: 108px; transform: rotate(-1deg); }
+
+    .arrow {
+      position: absolute;
+      height: 2px;
+      background: var(--orange);
+      transform-origin: left center;
+    }
+
+    .ar1 { left: 750px; top: 280px; width: 132px; transform: rotate(-18deg); }
+    .ar2 { left: 1038px; top: 252px; width: 132px; transform: rotate(20deg); }
+
+    .final {
+      background:
+        radial-gradient(circle at 50% 40%, rgba(230, 107, 63, .12), transparent 35%),
+        linear-gradient(rgba(215, 206, 192, .38) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(215, 206, 192, .38) 1px, transparent 1px),
+        var(--paper);
+      background-size: auto, 24px 24px, 24px 24px, auto;
+    }
+
+    .final-word {
+      position: absolute;
+      left: 70px;
+      top: 154px;
+      right: 70px;
+      z-index: 4;
+      font-size: 148px;
+      line-height: .86;
+      text-align: center;
+    }
+
+    .final-copy {
+      position: absolute;
+      left: 390px;
+      top: 486px;
+      width: 660px;
+      z-index: 4;
+      text-align: center;
+      font-size: 24px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .final-actions {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 166px;
+      z-index: 4;
+    }
+
+    .archive-orbit {
+      position: absolute;
+      inset: 112px 115px 116px;
+      border: 1px solid rgba(26, 23, 20, .12);
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      border: 1px solid var(--ink);
+      background: var(--paper-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .o1 { left: 214px; top: 154px; transform: rotate(-8deg); }
+    .o2 { right: 226px; top: 196px; transform: rotate(7deg); background: var(--deep); color: var(--paper); }
+    .o3 { left: 310px; bottom: 160px; transform: rotate(5deg); }
+    .o4 { right: 318px; bottom: 126px; transform: rotate(-4deg); background: var(--orange); color: var(--paper); }
+
+    @media screen {
+      body {
+        display: block;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="frame" id="section-01">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <div class="portrait-field"></div>
+    <div class="hero-title serif">Zhenyu</div>
+    <div class="hero-copy">
+      <div class="eyebrow">public memory x private thinking</div>
+      <h2>公开写作、个人资料与私密想法，收束成一个长期生长的个人 IP 档案馆。</h2>
+      <div class="button-row">
+        <a class="btn" href="#">查看公开内容 -></a>
+        <a class="btn" href="#">进入私密工作台 -></a>
+      </div>
+    </div>
+    <div class="floating-note note-one">
+      <strong>公开层</strong>
+      <span>文章、项目、关于页，像橱窗一样保持克制和可信。</span>
+    </div>
+    <div class="floating-note note-two">
+      <strong>私密层</strong>
+      <span>日记、灵感、草稿，先自由生长，再被整理成可公开的作品。</span>
+    </div>
+    <div class="section-tag">Section 01 / Hero</div>
+  </section>
+
+  <section class="frame" id="section-02">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <div class="large-label" style="right: 42px; top: 128px;">01</div>
+    <div class="section-head" style="left: 92px; top: 158px; max-width: 560px;">
+      <div class="eyebrow">PUBLIC WRITING</div>
+      <h2 class="serif">把能被看见的部分，做成作品现场。</h2>
+      <p>公开页不是文章列表，而是你的判断、项目和学习路径的展览空间。每篇内容都有可追溯的来源和长期价值。</p>
+    </div>
+    <div class="article-wall">
+      <article class="article-card a1">
+        <h3>从灵感到观点</h3>
+        <p>把零碎想法沉淀成一篇可分享的文章结构。</p>
+        <div class="meta">ESSAY / 2026.07</div>
+      </article>
+      <article class="article-card a2">
+        <h3>AI 工作流实验</h3>
+        <p>记录工具、方法和判断，而不是堆叠教程。</p>
+        <div class="meta">BUILD LOG</div>
+      </article>
+      <article class="article-card a3">
+        <h3>读书、项目、复盘</h3>
+        <p>用时间线串联公开内容，让别人看见你的成长轨迹。</p>
+        <div class="meta">ARCHIVE INDEX</div>
+      </article>
+    </div>
+    <div class="section-tag">Section 02 / Public Archive</div>
+  </section>
+
+  <section class="frame dark-frame" id="section-03">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <div class="vertical-note">private studio / not everything needs an audience</div>
+    <div class="lamp"></div>
+    <div class="section-head" style="left: 122px; top: 186px; max-width: 470px;">
+      <div class="eyebrow">PRIVATE STUDIO</div>
+      <h2 class="serif">未成熟的想法，需要一个安静后台。</h2>
+      <p>这里像工作台，不像社交媒体。快速记录、标签关联、状态管理、转公开草稿，是它最核心的动作。</p>
+      <div class="button-row" style="margin-top: 34px;">
+        <a class="btn dark" href="#" style="border-color: var(--paper);">新建想法 -></a>
+      </div>
+    </div>
+    <div class="private-desk">
+      <div class="desk-top"><i class="dot"></i> private inbox / 12 notes / 3 drafts ready</div>
+      <div class="desk-card d1">
+        <h3>把博客做成双层系统</h3>
+        <p>公开像橱窗，私密像工作台。中间需要一个清晰的转化按钮。</p>
+        <span class="status-pill">可转公开</span>
+      </div>
+      <div class="desk-card d2">
+        <h3>标签</h3>
+        <p>#AI<br>#博客<br>#产品判断<br>#个人系统</p>
+      </div>
+      <div class="desk-card d3">
+        <h3>下一步</h3>
+        <p>生成文章大纲，保留原始笔记，在公开区只展示完成度高的版本。</p>
+      </div>
+    </div>
+    <div class="section-tag">Section 03 / Private Studio</div>
+  </section>
+
+  <section class="frame" id="section-04">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <div class="masonry">
+      <div class="tile t1"></div>
+      <div class="tile t2"></div>
+      <div class="tile t3"></div>
+      <div class="tile t4"></div>
+    </div>
+    <div class="profile-side">
+      <div class="eyebrow">IDENTITY DATABASE</div>
+      <h2 class="serif">个人资料，不再散落在各处。</h2>
+      <p>头像、简介、经历、技能、项目、链接都作为结构化数据维护，一处更新，多处复用。</p>
+      <a class="btn" href="#">查看关于页 -></a>
+    </div>
+    <div class="large-label" style="left: 52px; bottom: 60px;">bio</div>
+    <div class="section-tag">Section 04 / Profile System</div>
+  </section>
+
+  <section class="frame" id="section-05">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <div class="flow-stage">
+      <div class="flow-title">
+        <div class="eyebrow">CONVERSION FLOW</div>
+        <h2 class="serif">想法不是发布，它是被打磨后公开。</h2>
+        <p>从灵感、草稿到公开文章，每一步都有明确状态。这个流程会让私人记录自然变成长期作品。</p>
+      </div>
+      <div class="flow-lane">
+        <div class="flow-card f1">
+          <h3>灵感</h3>
+          <p>不判断质量，先收进私密区，保留上下文和时间。</p>
+        </div>
+        <div class="flow-card f2">
+          <h3>草稿</h3>
+          <p>聚合关联笔记，生成结构，开始为读者重写。</p>
+        </div>
+        <div class="flow-card f3">
+          <h3>公开</h3>
+          <p>发布成文章、项目日志或关于页素材。</p>
+        </div>
+      </div>
+      <i class="arrow ar1"></i>
+      <i class="arrow ar2"></i>
+    </div>
+    <div class="section-tag">Section 05 / Thought To Public</div>
+  </section>
+
+  <section class="frame final" id="section-06">
+    <div class="nav">
+      <div class="logo">Zhenyu</div>
+      <div class="navlinks">
+        <span>ABOUT</span><span>WRITING</span><span>NOTES</span><span>BUILD</span><span>PRIVATE</span><i class="dot"></i>
+      </div>
+    </div>
+    <div class="archive-orbit"></div>
+    <div class="orbit-dot o1">ABOUT</div>
+    <div class="orbit-dot o2">NOTES</div>
+    <div class="orbit-dot o3">ESSAYS</div>
+    <div class="orbit-dot o4">BUILD</div>
+    <div class="final-word serif">Build your public memory.</div>
+    <div class="final-copy">一个能被别人看见、也能被自己长期使用的个人系统。公开内容负责表达，私密记录负责生长。</div>
+    <div class="final-actions button-row">
+      <a class="btn dark" href="#">开始整理内容 -></a>
+      <a class="btn" href="#">先看公开页 -></a>
+    </div>
+    <div class="section-tag">Section 06 / Closing CTA</div>
+  </section>
+</body>
+</html>

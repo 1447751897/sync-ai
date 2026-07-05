@@ -1,0 +1,62 @@
+{
+  "_comment": "前端设计 token：编写 UI 时优先引用这些值，不要在代码中随意硬编码颜色、间距和圆角。",
+  "colors": {
+    "primary": "",
+    "primary-hover": "",
+    "primary-active": "",
+    "secondary": "",
+    "background": "",
+    "surface": "",
+    "surface-elevated": "",
+    "text-primary": "",
+    "text-secondary": "",
+    "text-disabled": "",
+    "border": "",
+    "border-focus": "",
+    "success": "",
+    "error": "",
+    "warning": "",
+    "info": ""
+  },
+  "spacing": {
+    "unit": 4,
+    "scale": [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64]
+  },
+  "radius": {
+    "none": 0,
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "xl": 16,
+    "full": 9999
+  },
+  "typography": {
+    "font-family": "",
+    "font-family-mono": "",
+    "heading-weight": 600,
+    "body-weight": 400,
+    "body-size": "14px",
+    "body-line-height": 1.5,
+    "h1-size": "28px",
+    "h2-size": "22px",
+    "h3-size": "18px",
+    "small-size": "12px"
+  },
+  "shadows": {
+    "none": "none",
+    "sm": "0 1px 2px rgba(0,0,0,0.05)",
+    "md": "0 4px 6px rgba(0,0,0,0.07)",
+    "lg": "0 10px 15px rgba(0,0,0,0.1)"
+  },
+  "breakpoints": {
+    "sm": "640px",
+    "md": "768px",
+    "lg": "1024px",
+    "xl": "1280px"
+  },
+  "transitions": {
+    "fast": "150ms ease",
+    "normal": "250ms ease",
+    "slow": "350ms ease"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "sync-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "sync-ai：面向 Codex 的本地多模型能力路由插件与可视化控制台。",
+  "scripts": {
+    "build": "tsc && npm run copy-static",
+    "copy-static": "node scripts/copy-static.mjs",
+    "test": "vitest run",
+    "dev:config": "tsx src/http/server.ts",
+    "start:config": "node dist/http/server.js",
+    "mcp": "node dist/mcp/server.js",
+    "mcp:dev": "tsx src/mcp/server.ts"
+  },
+  "keywords": [
+    "codex",
+    "mcp",
+    "capability-routing",
+    "image-generation",
+    "openai-compatible"
+  ],
+  "author": {
+    "name": "zhuzhenyu"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "undici": "^8.7.0",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

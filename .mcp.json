@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "codex-capability-router": {
+      "cwd": ".",
+      "command": "node",
+      "args": ["./dist/mcp/server.js"]
+    }
+  }
+}
